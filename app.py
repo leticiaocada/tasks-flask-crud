@@ -13,7 +13,7 @@ def create_task():
     new_task = Task(id=task_id_control, title=data.get("title"), description=data.get("description", ""))
     task_id_control += 1
     tasks.append(new_task)
-    return jsonify({"message": "New task created"})
+    return jsonify({"message": "New task created", "id": new_task.id})
 
 @app.route('/tasks', methods=['GET'])
 def get_tasks():
@@ -31,10 +31,10 @@ def get_task(id):
             return jsonify(t.to_dict())
     return jsonify({"message": "Task not found"}), 404
 
-@app.route('tasks/<int:id>', methods=['PUT'])
+@app.route('/tasks/<int:id>', methods=['PUT'])
 def update_task(id):
     task = None
-    for t in task:
+    for t in tasks:
         if t.id == id:
             task = t
     if task == None:
